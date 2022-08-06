@@ -17,6 +17,7 @@ usage: `git [--version] [--help] [-C <path>] [-c <name>=<value>]`
         - посмотреть информацию о коммитах (*выход - Q*) .
   * git checkout .
         - перейти к коммиту( *нужно указать 4+ символа номера комита*) .
+        - перейти к ветке branch_name .
   * git checkpout master .
         - возврат к текущей версии репозитория .
   * git status .
@@ -25,8 +26,8 @@ usage: `git [--version] [--help] [-C <path>] [-c <name>=<value>]`
         - показать текущую версию git .
   * git diff .
         - показать разницу между текущим и сохраненным состоянием .
-  * git .
-        - .
+  * git branch <branch_name> .
+        - выводит информацию о ветках репозитория или создает ветку branch_name .
   * git .
         - .
   * git .
