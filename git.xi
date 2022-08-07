@@ -15,7 +15,8 @@ usage: `git [--version] [--help] [-C <path>] [-c <name>=<value>]`
         |-m "информация о содержании комита"|
   * git log .
         - посмотреть информацию о коммитах (*выход - Q*) .
-  * git checkout .
+        |-graph| - ключ добавляет визуализацию комитов и слияния веток
+  * git checkout <commit_number|branch_name> .
         - перейти к коммиту( *нужно указать 4+ символа номера комита*) .
         - перейти к ветке branch_name .
   * git checkpout master .
@@ -28,8 +29,11 @@ usage: `git [--version] [--help] [-C <path>] [-c <name>=<value>]`
         - показать разницу между текущим и сохраненным состоянием .
   * git branch <branch_name> .
         - выводит информацию о ветках репозитория или создает ветку branch_name .
-  * git .
-        - .
+          |-d <branch_name>|удаляет ветку|branch_name| 
+  * git merge <branch_name> .
+        - объединяет ветку branch_name с текущей веткой .
+        в случае конфликта в ветках требуется вручную внести 
+        изменения и провести коммит
   * git .
         - .
   * git .
