@@ -4,29 +4,38 @@ usage: `git [--version] [--help] [-C <path>] [-c <name>=<value>]`
            `[--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]`       
            `[--super-prefix=<path>] [--config-env=<name>=<envvar>]`
            `<command> [<args>]`
-
+Что такое GIT: .
+Указатель |HEAD| указывает на текущий комит
+помимо этого у каждой ветки есть свой указатель.
 # Инструкции по работе с GIT .
   * git init .
-        - инициализация репозитория .
+        - инициализация нового репозитория или сброс текущего .
   * git add <file> .
         - добавить файл к отслеживанию .
   * git commit .
         - добавить изменения в репозиторий .
-        |-m "информация о содержании комита"|
+        |-m "информация о содержании комита"| добавить комментарий к комиту
+        |-am| добавить измененные файлы в коммит (минуя |git add|)
   * git log .
         - посмотреть информацию о коммитах (*выход - Q*) .
         |-graph| - ключ добавляет визуализацию комитов и слияния веток
+        |-p| - более подробная информация о коммитах 
+
   * git checkout <commit_number|branch_name> .
         - перейти к коммиту( *нужно указать 4+ символа номера комита*) .
         - перейти к ветке branch_name .
-  * git checkpout master .
-        - возврат к текущей версии репозитория .
+        |-b <branch_name>| создать ветку и перейти на нее
+                           если эта ветка есть в удаленном репозитории 
+                           она будет связана с создаваемой   
+        |-b <branch_name> <commit_number>| 
+        - перейти на комит`commit_number` и создать от него ветку `branch_name`
   * git status .
         - отображает информацию о состоянии репозитория .
   * git version .
         - показать текущую версию git .
   * git diff .
         - показать разницу между текущим и сохраненным состоянием .
+        |--stage| между текущим и "закомиченым" состоянием
   * git branch <branch_name> .
         - выводит информацию о ветках репозитория или создает ветку branch_name .
           |-d <branch_name>|удаляет ветку|branch_name| 
@@ -34,6 +43,9 @@ usage: `git [--version] [--help] [-C <path>] [-c <name>=<value>]`
         - объединяет ветку branch_name с текущей веткой .
         в случае конфликта в ветках требуется вручную внести 
         изменения и провести коммит
+        способы объединения:
+            * `fast forward` - merge простым переводом указателя вперед
+            * `ort` - merge двух веток если нет конфликта
   * git config .
         - задать/просмотреть параметры настройки git .
         |--list| просмотр списка конфигураций
@@ -42,34 +54,95 @@ usage: `git [--version] [--help] [-C <path>] [-c <name>=<value>]`
         - создает связь между локальным репозиторием и репозиторием на github (например) .
             формат команды:
             |git remote add <name> <link>|
-            |name| имя связи
+            |name| имя связи (обычно origin)
             |link| ссылка на удаленный репозиторий           
-        ключ|-v| выводит существующие связи с удаленными репозиториями  
+        ключ|-v| выводит существующие связи с удаленными репозиториями
+  * git clone <link> .
+        - копирует удаленный репозиторий в новую папку .
+        |link| - адрес удаленного репозитория                
+  * git push <key> <name> <branch> .
+        - отправить текущий репозиторий в удаленный репозиторий .
+        |name|    имя связи (обычно origin)
+        |branch|  имя ветки в удаленном репозитории
+        ключ|-u|  (полный вариант |--set-upstream|) создаётся (если не 
+                  существует) в удалённом репозитории ветка, соответствующая
+                  локальной и происходит их связывание, позволяя в дальнейшем
+                  не прописывать каждый раз name и branch 
+        ключ|--all|публикация всех веток    
+        если сервер не может сделать merge методом|fast forward|он 
+        отклонит|push| и предложит сначала произвести|merge|локально
+        |--tags| отправить теги в удаленный репозиторий.
+  * git pull (origin master) .
+        - загружает удаленный репозиторий и проводит merge с текущим .
+  * git show .
+        - отображает информацию о различных объектах .
+        хеш комита - подробная информация о коммите
+  * git restore .
+        - откат изменений в "modified" файлах на состояние комита .
+        |--staged|- откат "staged" файлов на состояние комита
+  * git mv <oldfilename> <newfilename> .
+        - переименование и(или) перенос файлов в репозитории .
+        - переиминовывает `oldfilename`в`newfilename`
+  * git rm <filename> .
+        - удалить файл из репозитория .
+        |--cashed| удалить файл из репозитория, но оставить его в каталоге
+  * git reset <--hard> <hash_commit> .
+        - переносит указатель HEAD и указатель ветки MASTER на указанный коммит .
+  * git fetch (origin) .
+        - загрузить удаленный репозиторий, не проводя merge .
+  * git rebase .
+        -  Перебазировать комиты на вершину другой ветки .
+           Старые комиты не удаляются, к ним можно перейти только зная
+           их хеш.
+  * git tag <name> .
+        - Создать тег name на текущем комите .
+        -a <name> -m "comment" - создать анотированный тег .
+        
+Состояние файлов в репозитории: .
+  # `tracked`   - отслеживаются гитом 
+      -|modified| - измененный
+      -|staged|   - подготовленный к коммиту. 
+                  Находится в staging area (область подготовленных 
+                  файлов или |Index|) 
+      |git add| - переводит в файл индекс
+      -|commited| - зафиксированный |git commit|
+  # `untracked` - не отслеживаются гитом
+
+Deattached head: .
+  - указатель`HEAD`не указывает ни на одну из веток .
+  - при переходе на предыдущий коммит, внесении изменений в файлы
+  и создании комита получится комит, при переходе с которого к нему 
+  невозможно будет вернуться не зная его хеша         
 
 
 
-   * `clone`     Clone a repository into a new directory
-   * `init`      Create an empty Git repository or reinitialize an existing one
+GITHUB: .
+  # pull request: .
+      - создать ответвление чужого репозитория(fork на гитхаб) .
+      - клонировать его на локальный диск (git clone) .
+      - создать ветку в локальном репозитории, перейти в нее .
+      - добавить в новой ветке свои изменения .
+      - закомитить .
+      - запушить в удаленный репозиторий .
+      - появится кнопка "compare and pull request" .
+      - жмем ее, добавляем описание, жмем создать пул реквест .
+      - после чего у хозяина проекта появится этот запрос .
+  # Если репозиторий приватный .
+      то тех, с кем планируется вести разработку нужно "пригласить".
+  # Правила для веток .
+      options - branches - protection rules
+      ввести pattern ветки и запретить например`force push`
 
-
-   * `add`       Add file contents to the index
    * `mv`        Move or rename a file, a directory, or a symlink
-   * `restore`   Restore working tree files
+
    * `rm`        Remove files from the working tree and from the index
 
 
    * `bisect`    Use binary search to find the commit that introduced a bug
    * `diff`      Show changes between commits, commit and working tree, etc
    * `grep`      Print lines matching a pattern
-   * `log`       Show commit logs
    * `show`      Show various types of objects
-   * `status`    Show the working tree status
 
-
-   * `branch`    List, create, or delete branches
-   * `commit`    Record changes to the repository
-   * `merge`     Join two or more development histories together
-   * `rebase`    Reapply commits on top of another base tip
    * `reset`     Reset current HEAD to the specified state
    * `switch`    Switch branches  
 
