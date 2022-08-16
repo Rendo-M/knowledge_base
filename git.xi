@@ -38,7 +38,8 @@ usage: `git [--version] [--help] [-C <path>] [-c <name>=<value>]`
         |--stage| между текущим и "закомиченым" состоянием
   * git branch <branch_name> .
         - выводит информацию о ветках репозитория или создает ветку branch_name .
-          |-d <branch_name>|удаляет ветку|branch_name| 
+          |-d <branch_name>|удаляет слитую ветку|branch_name|
+          |-D <branch_name>|удаляет ветку|branch_name| 
   * git merge <branch_name> .
         - объединяет ветку branch_name с текущей веткой .
         в случае конфликта в ветках требуется вручную внести 
