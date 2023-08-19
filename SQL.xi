@@ -1186,7 +1186,7 @@ INNER JOIN по умолчанию.
     LEAD() .
     [https://www.postgresqltutorial.com/postgresql-window-function/postgresql-lead-function/]
 
-ROWS_BETWEEN .
+ROWS BETWEEN .
   |Скользящее среднее| —  это показатель, который вычисляется в каждой точке временного ряда как среднее значение 
                           за N предыдущих периодов (дней, недель, месяцев и т.д. в зависимости от уровня агрегации данных). 
                           Скользящее среднее как бы перемещается по временному ряду и каждый раз учитывает фиксированное 
@@ -1224,3 +1224,20 @@ CASE и оконные функции .
     | SELECT SUM(column_1) FILTER (WHERE column_2 > 100) OVER (PARTITION BY column_3 ORDER BY column_4) AS sum
     | FROM table
 
+
+select 
+    data, 
+    new_couriers,
+    sum(new_couriers) over (rows between unbounded preceding and current row) as total_couriers
+from (
+    select data, count(courier_id) as new_couriers
+    from (
+        select distinct on(courier_id) courier_id, data
+        from (
+            select courier_id,
+            date_trunc('day', time) as data
+            from courier_actions) as q1
+        order by courier_id, data
+        ) as sub1
+    group by data
+    order by data) as t1
