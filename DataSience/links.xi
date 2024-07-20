@@ -10,3 +10,5 @@ Machine Learining .
     [https://towardsdatascience.com/categorical-encoding-using-label-encoding-and-one-hot-encoder-911ef77fb5bd]
 Формирование гипотез .
     [https://rb.ru/opinion/shablon-dlya-gipotez/]    
+
+    https://habr.com/ru/company/skillfactory/blog/510320/

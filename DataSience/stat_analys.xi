@@ -358,3 +358,4 @@
   * ранговая корреляция(порядковые данные)
   * корреляцонный анализ категоризованных данных
 
+I am glad to receive an invitation for an interview. Unfortunately, I will most likely be busy all next week, except for Friday. But on Friday I will be free all day, so I will leave the choice of time for the interview up to you.   
